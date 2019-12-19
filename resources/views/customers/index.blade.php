@@ -1,0 +1,176 @@
+@extends('theme.default')
+
+
+
+@section('content')
+
+<div class="row">
+
+        @if (Session::has('add'))
+        <div id="add" class="success" style="background-color:#FFF;text-align:center;font-size:20px;color:green;padding-top: 10px;">
+        <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{Session::get('add')}}</p>
+        </div>
+        @endif
+
+        @if (Session::has('edit'))
+        <div id="edit" class="success" style="background-color:#FFF;text-align:center;font-size:20px;color:green;padding-top: 10px;">
+        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{Session::get('edit')}}</p>
+        </div>
+        @endif
+
+
+    <div class="col-lg-12">
+
+        <h1 class="page-header">Customers</h1>
+
+    </div>
+
+    <!-- /.col-lg-12 -->
+
+</div>
+
+<!-- /.row -->
+
+
+
+<table class="table table-striped table-bordered table-hover">
+
+    <thead>
+
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th> Address</th>
+            <th> Phone</th>
+            <th> Email</th>
+            <th> Activation Status</th>
+            <th>Country</th>
+            <th>created_at</th> 
+            <th>delete</th>
+   
+
+        </tr>
+
+    </thead>
+    @foreach($customers as $U)
+    <tbody>
+        
+        <tr>
+                <td>{{$U->first_name}}</td>
+            <td>{{$U->last_name}}</td>
+            <td>{{$U->address	}}</td>
+            <td>{{$U->phone	}}</td>
+            <td>{{$U->email	}}</td>
+
+           <td style="text-align:center;">
+                @if ($U->is_active == 0)
+               
+                 <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#m-{{$U->id}}">Disactive</button>
+
+                <!-- Modal -->
+                <div id="m-{{$U->id}}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Active</h4>
+                            </div>
+                            <div class="modal-body">
+                               <div class="deleteContent">
+                                        Do You Want Active <span class="dname"></span> ? <span
+                                          class="hidden did"></span>
+                                      </div>
+                                
+                            
+                            </div>
+                            <div class="modal-footer">
+                            <a href="/customers/{{$U->id}}/activation" class="btn btn-success">Active</a>
+                                 <button type="button" class="btn btn-warning" data-dismiss="modal">
+                                      <span class='glyphicon glyphicon-remove'></span> close
+                                    </button>
+                            </div>
+                        </div>
+                
+                    </div>
+                </div>
+                @else
+                
+                
+                   <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#m1-{{$U->id}}"> Active</button>
+
+                <!-- Modal -->
+                <div id="m1-{{$U->id}}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Disactive</h4>
+                            </div>
+                            <div class="modal-body">
+                               <div class="deleteContent">
+                                    Do You Want Disactive  <span class="dname"></span> ? <span
+                                          class="hidden did"></span>
+                                      </div>
+                                
+                            
+                            </div>
+                            <div class="modal-footer">
+                             <a href="/customers/{{$U->id}}/activation" class="btn btn-danger">Disactive</a>
+                                 <button type="button" class="btn btn-warning" data-dismiss="modal">
+                                      <span class='glyphicon glyphicon-remove'></span> close
+                                    </button>
+                            </div>
+                        </div>
+                
+                    </div>
+                </div>
+                @endif
+              </td>
+
+
+
+
+
+ <td>{{$U->country_name}}</td>
+            <td>{{$U->created_at}}</td>
+
+           
+            <td><a href="/customers/{{$U->id}}/destroy" class="btn btn-danger btn-xs">delete</a></td>
+
+        </tr>
+
+  
+
+    
+
+    </tbody>
+    @endforeach
+
+</table>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+  setTimeout(function() {
+    $('#add').fadeOut('fast');  
+}, 5000); // <-- time in millisecond
+});
+
+$(document).ready(function(){
+  setTimeout(function() {
+    $('#edit').fadeOut('fast');  
+}, 5000); // <-- time in millisecond
+});
+
+
+</script>
+
+
+
+@endsection
